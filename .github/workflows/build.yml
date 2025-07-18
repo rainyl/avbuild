@@ -80,6 +80,14 @@ jobs:
       with:
         name: ffmpeg-${{ env.FF_VERSION }}-${{ env.TARGET_OS }}-${{ matrix.config }}
         path: ffmpeg-*.tar.xz
+    - name: Release SDK
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        draft: true
+        prerelease: false
+        files: |
+          ffmpeg-*.tar.xz
   Android:
     runs-on: macos-15
     env:
@@ -127,3 +135,11 @@ jobs:
       with:
         name: ffmpeg-${{ env.FF_VERSION }}-${{ env.TARGET_OS }}-${{ matrix.config }}
         path: ffmpeg-*.tar.xz
+    - name: Release SDK
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        draft: true
+        prerelease: false
+        files: |
+          ffmpeg-*.tar.xz
