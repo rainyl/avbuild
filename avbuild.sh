@@ -1304,6 +1304,9 @@ setup_macos_env(){
     }
     TOOLCHAIN_OPT+=" --enable-cross-compile --arch=$MACOS_ARCH  --target-os=darwin"
   fi
+  # increase headerpad to avoid "headerpad_max_install_names" error
+  EXTRA_CFLAGS+=" -DFORCE_HEADERPAD"
+  EXTRA_LDFLAGS+=" -Wl,-headerpad_max_install_names"
   #TOOLCHAIN_OPT+=" --strip='strip -u -r'" # no effect because ffmpeg add -x to strip
   [ -z "$MACOS_ARCH" ] && MACOS_ARCH=$(cc -dumpmachine |cut -d '-' -f 1)
   : ${MACOS_VER:=10.7}
