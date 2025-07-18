@@ -9,13 +9,12 @@ on:
 env:
 #  if: (github.event_name == 'schedule')
 #  GITHUB_ENV: https://docs.github.com/en/actions/learn-github-actions/environment-variables#about-environment-variables
-  FF_VERSION: ${{ vars.FF_VER }} # TODO: latest release if triggered by schedule
+  FF_VERSION: 7.1
   LLVM_VER: ${{ vars.LLVM_VER }}
   LLVM_VER_DEFAULT: 20
   NINJA_STATUS: '[%f/%t %e %r]'
-  SF_PW_MAPPED: ${{ secrets.SF_PW }}
-  SF_USER_MAPPED: ${{ secrets.SF_USER }}
-  VC_LTL_VER: ${{ vars.VC_LTL_VER }}
+  XCODE: 16.4
+  LINUX_SYSROOT_ID: avbuild-linux-sysroot-rainyl
 
 jobs:
   Apple:
@@ -57,7 +56,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Setup Xcode
-      run: sudo xcode-select -s /Applications/Xcode_${{ vars.XCODE }}.app
+      run: sudo xcode-select -s /Applications/Xcode_${{ env.XCODE }}.app
     - name: Create Build Environment
       shell: bash
       env:
@@ -97,7 +96,7 @@ jobs:
       uses: actions/cache@v4
       with:
         path: /tmp/sysroot
-        key: sysroot-${{ env.TARGET_OS }}-${{ vars.LINUX_SYSROOT_ID }}
+        key: sysroot-${{ env.TARGET_OS }}-${{ env.LINUX_SYSROOT_ID }}
     - name: Create Build Environment
       shell: bash
       env:
